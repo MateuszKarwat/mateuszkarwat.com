@@ -11,7 +11,7 @@ fi
 echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
 # Build the project.
-hugo -d docs
+hugo
 
 # Add changes to git.
 git add -A
@@ -26,3 +26,4 @@ git commit -m "$msg"
 
 # Push source and build repositories.
 git push origin master
+git subtree push --prefix public origin gh-pages
