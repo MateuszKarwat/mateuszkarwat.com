@@ -26,4 +26,3 @@ git commit -m "$msg"
 
 # Push source and build repositories.
 git push origin master
-git subtree push --prefix public origin gh-pages
