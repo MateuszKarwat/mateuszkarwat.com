@@ -1,4 +1,4 @@
 name = "Theme"
 tags = ["blog"]
-features = ["blog"]
+features = ["blog", "syntax highlighting"]
 min_version = 0.15
