@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.17" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+	<link rel="shortcut icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/highlight.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://mateuszkarwat.com//index.xml">
+
+    
+    <title>Nested Protocols - Mateusz Karwat</title>
+    <meta property='og:title' content="Nested Protocols - Mateusz Karwat">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://mateuszkarwat.com/post/namespaced-protocols/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 3em"></a>
+</header> 
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://mateuszkarwat.com/"/>
+  <meta itemprop="dateModified" content="2016-11-26T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Nested Protocols">
+  <meta itemprop="description" content="Yesterday my friend who has been transfered from iOS team to Android team showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.
+Unfortunately, according to the Swift documentation:
+ Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.">
+  <meta itemprop="url" content="http://mateuszkarwat.com/post/namespaced-protocols/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://mateuszkarwat.com/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Mateusz Karwat">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Nested Protocols</h1>
+    <h2 class="headline"> How to put a protocol into a namespace </h2>
+  </header>
+
+  <section class="postbody">
+    <p>Yesterday my friend who has been transfered from iOS team to Android team
+showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.</p>
+
+<p>Unfortunately, according to the <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/NestedTypes.html">Swift documentation</a>:</p>
+
+<blockquote>
+<p>Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.</p>
+</blockquote>
+
+<p>It means that currently in Swift there is no way to define a nested protocol. In other words - protocols are valid at file scope only.</p>
+
+<p><em>But why would it be nice to have anyway?</em> - you may ask. Imagine you could write a code like this:</p>
+
+<pre><code>// Please remember that this code won't compile.
+
+class FileInformationProvider {
+  protocol Delegate: class { }
+
+  weak var delegate: Delegate?
+}
+</code></pre>
+
+<p>If you would like to create a class which conforms to that protocol, you would write:</p>
+
+<pre><code>class FileManager: FileInformationProvider.Delegate { }
+</code></pre>
+
+<p>I&rsquo;m sure you can see an advantage of this approach. There is no need to create a protocol called <code>FileInformationProviderDelegate</code> which is declared out of <code>FileInformationProvider</code> namespace. Having a nested protocol limits it inside a type to which it refers directly to. It gives more clarity to our code without a need of wondering which specific class uses this delegate protocol.</p>
+
+<p>In Swift it&rsquo;s very common practice to create a nested <code>struct</code> or <code>enum</code> to store all constants, states or keys used within a specific scope. For example:</p>
+
+<pre><code>class InformationFetcher {
+  struct Constants {
+    static let baseURL = &quot;http://mateuszkarwat.com&quot;
+  }
+}
+</code></pre>
+
+<p>So how can we achieve the same namespacing with protocols? I came up with one solution. It involves a <code>typealias</code> keyword. The <code>typealias</code> keyword introduces a named alias of an existing type into your program<sup><a href="#fn1" id="ref1">1</a></sup>. Here is what we can do:</p>
+
+<pre><code>protocol FileInformationProviderDelegate { }
+
+class FileInformationProvider {
+  typealias Delegate = FileInformationProviderDelegate
+
+  weak var delegate: Delegate?
+}
+</code></pre>
+
+<p>Our code compiles now and we can conform to nested protocol by calling <code>FileInformationProvider.Delegate</code> just as we wanted. It doesn&rsquo;t hide <code>FileInformationProviderDelegate</code> declaration though, so the protocol is still accessible outside <code>FileInformationProvider</code> namespace. However, with this approach we can go further and for example create nested protocols like <code>.DataSource</code> in our table view controllers.</p>
+
+<p>Is this any better than just:</p>
+
+<pre><code>class FileInformationProvider {
+  weak var delegate: FileInformationProviderDelegate?
+}
+</code></pre>
+
+<p>I don&rsquo;t know. I guess it&rsquo;s totally up to you. You might say that this solution requires a bit more code to write and probably looks like some kind of a workaround. It&rsquo;s absolutely true. I&rsquo;m not a big fan of it either and I probably won&rsquo;t use it. The goal here was to show you there is a way to create a &ldquo;nestedish&rdquo; protocol in Swift in case you desperately need it.</p>
+
+<p>If you come up with better solution, please let me know. I would love to try it out.</p>
+
+<hr />
+
+<p><sup id="fn1">1. <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID361">The Swift Programming Language - Type Alias Declaration</a><a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup></p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2016-11-26T00:00:00&#43;00:00">Sat, Nov 26, 2016</time>
+      by <a href="http://www.twitter.com/mateusz_karwat/">@mateusz_karwat</a>
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+  <script src="/js/highlight.js/"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  </script>
+</body>
+</html>
+
