@@ -6,84 +6,8 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-11-26 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-09-30 00:00:00 &#43;0000 UTC</updated>
 
-    
-      
-        <item>
-          <title>Nested Protocols</title>
-          <link>http://mateuszkarwat.com/post/namespaced-protocols/</link>
-          <pubDate>Sat, 26 Nov 2016 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/namespaced-protocols/</guid>
-          <description>&lt;p&gt;Yesterday my friend who has been transfered from iOS team to Android team
-showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, according to the &lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/NestedTypes.html&#34;&gt;Swift documentation&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;It means that currently in Swift there is no way to define a nested protocol. In other words - protocols are valid at file scope only.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;But why would it be nice to have anyway?&lt;/em&gt; - you may ask. Imagine you could write a code like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// Please remember that this code won&#39;t compile.
-
-class FileInformationProvider {
-  protocol Delegate: class { }
-
-  weak var delegate: Delegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you would like to create a class which conforms to that protocol, you would write:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class FileManager: FileInformationProvider.Delegate { }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I&amp;rsquo;m sure you can see an advantage of this approach. There is no need to create a protocol called &lt;code&gt;FileInformationProviderDelegate&lt;/code&gt; which is declared out of &lt;code&gt;FileInformationProvider&lt;/code&gt; namespace. Having a nested protocol limits it inside a type to which it refers directly to. It gives more clarity to our code without a need of wondering which specific class uses this delegate protocol.&lt;/p&gt;
-
-&lt;p&gt;In Swift it&amp;rsquo;s very common practice to create a nested &lt;code&gt;struct&lt;/code&gt; or &lt;code&gt;enum&lt;/code&gt; to store all constants, states or keys used within a specific scope. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class InformationFetcher {
-  struct Constants {
-    static let baseURL = &amp;quot;http://mateuszkarwat.com&amp;quot;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So how can we achieve the same namespacing with protocols? I came up with one solution. It involves a &lt;code&gt;typealias&lt;/code&gt; keyword. The &lt;code&gt;typealias&lt;/code&gt; keyword introduces a named alias of an existing type into your program&lt;sup&gt;&lt;a href=&#34;#fn1&#34; id=&#34;ref1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. Here is what we can do:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;protocol FileInformationProviderDelegate { }
-
-class FileInformationProvider {
-  typealias Delegate = FileInformationProviderDelegate
-
-  weak var delegate: Delegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Our code compiles now and we can conform to nested protocol by calling &lt;code&gt;FileInformationProvider.Delegate&lt;/code&gt; just as we wanted. It doesn&amp;rsquo;t hide &lt;code&gt;FileInformationProviderDelegate&lt;/code&gt; declaration though, so the protocol is still accessible outside &lt;code&gt;FileInformationProvider&lt;/code&gt; namespace. However, with this approach we can go further and for example create nested protocols like &lt;code&gt;.DataSource&lt;/code&gt; in our table view controllers.&lt;/p&gt;
-
-&lt;p&gt;Is this any better than just:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class FileInformationProvider {
-  weak var delegate: FileInformationProviderDelegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I don&amp;rsquo;t know. I guess it&amp;rsquo;s totally up to you. You might say that this solution requires a bit more code to write and probably looks like some kind of a workaround. It&amp;rsquo;s absolutely true. I&amp;rsquo;m not a big fan of it either and I probably won&amp;rsquo;t use it. The goal here was to show you there is a way to create a &amp;ldquo;nestedish&amp;rdquo; protocol in Swift in case you desperately need it.&lt;/p&gt;
-
-&lt;p&gt;If you come up with better solution, please let me know. I would love to try it out.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;sup id=&#34;fn1&#34;&gt;1. &lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID361&#34;&gt;The Swift Programming Language - Type Alias Declaration&lt;/a&gt;&lt;a href=&#34;#ref1&#34; title=&#34;Jump back to footnote 1 in the text.&#34;&gt;↩&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-</description>
-        </item>
-      
     
       
     
