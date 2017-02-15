@@ -12,10 +12,10 @@
       
         <item>
           <title>Return keyword and following expression</title>
-          <link>http://mateuszkarwat.com/post/return-keywork/</link>
+          <link>http://mateuszkarwat.com/post/return-keyword/</link>
           <pubDate>Wed, 15 Feb 2017 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://mateuszkarwat.com/post/return-keywork/</guid>
+          <guid>http://mateuszkarwat.com/post/return-keyword/</guid>
           <description>&lt;p&gt;Lately I was left with question which made me a bit like &amp;ldquo;whaaaaaat?&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;A friend of mine told me that some time ago while he was debugging something, he used a &lt;code&gt;return&lt;/code&gt; keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following &lt;code&gt;return&lt;/code&gt; statement had been called anyway.&lt;/p&gt;
