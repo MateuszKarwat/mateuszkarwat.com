@@ -5,9 +5,73 @@
     <link>http://mateuszkarwat.com/index.xml</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
-    <updated>2016-11-26 00:00:00 &#43;0000 UTC</updated>
+    <rights>(C) 2017</rights>
+    <updated>2017-02-15 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Return keyword and following expression</title>
+          <link>http://mateuszkarwat.com/post/return-keywork/</link>
+          <pubDate>Wed, 15 Feb 2017 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://mateuszkarwat.com/post/return-keywork/</guid>
+          <description>&lt;p&gt;Lately I was left with question which made me a bit like &amp;ldquo;whaaaaaat?&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;A friend of mine told me that some time ago while he was debugging something, he used a &lt;code&gt;return&lt;/code&gt; keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following &lt;code&gt;return&lt;/code&gt; statement had been called anyway.&lt;/p&gt;
+
+&lt;p&gt;To simplify our problem let&amp;rsquo;s make a very easy example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func returnInTheMiddle() {
+  print(&amp;quot;This is called as expected&amp;quot;)
+  return
+  print(&amp;quot;This is called as well&amp;quot;)
+}
+
+returnInTheMiddle()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When you run that piece of code, you&amp;rsquo;ll see that &lt;strong&gt;second &lt;code&gt;print&lt;/code&gt; statement will be called. Why is that?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Fortunately Xcode doesn&amp;rsquo;t leave us without a warning here. It displays the following message:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Expression following &amp;lsquo;return&amp;rsquo; is treated as an argument of a &amp;lsquo;return&amp;rsquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;That pretty much is an answers to our question. When &lt;code&gt;return&lt;/code&gt; is being called it sometimes takes an expression, which in this case is a function. Passed function is called before its return value is passed to the &lt;code&gt;return&lt;/code&gt; statement. That&amp;rsquo;s why second &lt;code&gt;print&lt;/code&gt; statement is called.&lt;/p&gt;
+
+&lt;p&gt;Despite how good that answer is, I wanted to know how actually &lt;code&gt;return&lt;/code&gt; keyword is implemented. What kind of expression it actually is.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&#34;https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/Statements.html#//apple_ref/doc/uid/TP40014097-CH33-ID428&#34;&gt;Statements&lt;/a&gt; chapter of &lt;a href=&#34;https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/AboutTheLanguageReference.html#//apple_ref/doc/uid/TP40014097-CH29-ID345&#34;&gt;Language Reference&lt;/a&gt; we can find a description of a &lt;code&gt;return&lt;/code&gt; keyword, which also contains information about any following expression:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;When a return statement is followed by an expression, the value of the expression is returned to the calling function or method. If the value of the expression does not match the value of the return type declared in the function or method declaration, the expression’s value is converted to the return type before it is returned to the calling function or method.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;With that information in hand I tried to find an actual implementation of it and I did find what I was looking for. Parsing &lt;code&gt;return&lt;/code&gt; statement is located in &lt;a href=&#34;https://github.com/apple/swift/blob/cb3bdcc2a36699abf1b7d5b0a791b9011959ac4a/lib/Parse/ParseStmt.cpp&#34;&gt;ParseStmt.cpp&lt;/a&gt; file and function which does that is called &lt;code&gt;ParserResult&amp;lt;Stmt&amp;gt; Parser::parseStmtReturn(SourceLoc tryLoc)&lt;/code&gt;. There is one particular comment which is interesting:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Handle the ambiguity between consuming the expression and allowing the enclosing stmt-brace to get it by eagerly eating it unless the return is followed by a &amp;lsquo;}&amp;rsquo;, &amp;lsquo;;&amp;rsquo;, statement or decl start keyword sequence.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now we can be really sure, that if &lt;code&gt;return&lt;/code&gt; statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of &lt;code&gt;return&lt;/code&gt; statement.&lt;/p&gt;
+
+&lt;p&gt;To avoid this kind of behaviour, if you really need to put &lt;code&gt;return&lt;/code&gt; statement in the middle of a function, make sure it&amp;rsquo;s either followed by &lt;code&gt;}&lt;/code&gt; (which is very common scenario and used everywhere) or &lt;code&gt;;&lt;/code&gt; character. &lt;code&gt;;&lt;/code&gt;&lt;code&gt;character following&lt;/code&gt;return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func returnInTheMiddle() {
+  print(&amp;quot;This is called as expected&amp;quot;)
+  return;
+  print(&amp;quot;This is called as well&amp;quot;)
+}
+
+returnInTheMiddle()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This time, second &lt;code&gt;print&lt;/code&gt; statement is not called and never will be.&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
