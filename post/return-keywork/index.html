@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.17" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://mateuszkarwat.com//index.xml">
+
+    
+    <title>Return keyword and following expression - Mateusz Karwat</title>
+    <meta property='og:title' content="Return keyword and following expression - Mateusz Karwat">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://mateuszkarwat.com/post/return-keywork/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 3em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://mateuszkarwat.com/"/>
+  <meta itemprop="dateModified" content="2017-02-15T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Return keyword and following expression">
+  <meta itemprop="description" content="Lately I was left with question which made me a bit like &ldquo;whaaaaaat?&rdquo;.
+A friend of mine told me that some time ago while he was debugging something, he used a return keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following return statement had been called anyway.">
+  <meta itemprop="url" content="http://mateuszkarwat.com/post/return-keywork/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://mateuszkarwat.com/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Mateusz Karwat">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Return keyword and following expression</h1>
+    <h2 class="headline"> Why function after return keyword is called if function doesn&#39;t return anything </h2>
+  </header>
+
+  <section class="postbody">
+    <p>Lately I was left with question which made me a bit like &ldquo;whaaaaaat?&rdquo;.</p>
+
+<p>A friend of mine told me that some time ago while he was debugging something, he used a <code>return</code> keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following <code>return</code> statement had been called anyway.</p>
+
+<p>To simplify our problem let&rsquo;s make a very easy example:</p>
+
+<pre><code>func returnInTheMiddle() {
+  print(&quot;This is called as expected&quot;)
+  return
+  print(&quot;This is called as well&quot;)
+}
+
+returnInTheMiddle()
+</code></pre>
+
+<p>When you run that piece of code, you&rsquo;ll see that <strong>second <code>print</code> statement will be called. Why is that?</strong></p>
+
+<p>Fortunately Xcode doesn&rsquo;t leave us without a warning here. It displays the following message:</p>
+
+<blockquote>
+<p>Expression following &lsquo;return&rsquo; is treated as an argument of a &lsquo;return&rsquo;.</p>
+</blockquote>
+
+<p>That pretty much is an answers to our question. When <code>return</code> is being called it sometimes takes an expression, which in this case is a function. Passed function is called before its return value is passed to the <code>return</code> statement. That&rsquo;s why second <code>print</code> statement is called.</p>
+
+<p>Despite how good that answer is, I wanted to know how actually <code>return</code> keyword is implemented. What kind of expression it actually is.</p>
+
+<p>In <a href="https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/Statements.html#//apple_ref/doc/uid/TP40014097-CH33-ID428">Statements</a> chapter of <a href="https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/AboutTheLanguageReference.html#//apple_ref/doc/uid/TP40014097-CH29-ID345">Language Reference</a> we can find a description of a <code>return</code> keyword, which also contains information about any following expression:</p>
+
+<blockquote>
+<p>When a return statement is followed by an expression, the value of the expression is returned to the calling function or method. If the value of the expression does not match the value of the return type declared in the function or method declaration, the expression’s value is converted to the return type before it is returned to the calling function or method.</p>
+</blockquote>
+
+<p>With that information in hand I tried to find an actual implementation of it and I did find what I was looking for. Parsing <code>return</code> statement is located in <a href="https://github.com/apple/swift/blob/cb3bdcc2a36699abf1b7d5b0a791b9011959ac4a/lib/Parse/ParseStmt.cpp">ParseStmt.cpp</a> file and function which does that is called <code>ParserResult&lt;Stmt&gt; Parser::parseStmtReturn(SourceLoc tryLoc)</code>. There is one particular comment which is interesting:</p>
+
+<blockquote>
+<p>Handle the ambiguity between consuming the expression and allowing the enclosing stmt-brace to get it by eagerly eating it unless the return is followed by a &lsquo;}&rsquo;, &lsquo;;&rsquo;, statement or decl start keyword sequence.</p>
+</blockquote>
+
+<p>Now we can be really sure, that if <code>return</code> statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of <code>return</code> statement.</p>
+
+<p>To avoid this kind of behaviour, if you really need to put <code>return</code> statement in the middle of a function, make sure it&rsquo;s either followed by <code>}</code> (which is very common scenario and used everywhere) or <code>;</code> character. <code>;</code><code>character following</code>return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:</p>
+
+<pre><code>func returnInTheMiddle() {
+  print(&quot;This is called as expected&quot;)
+  return;
+  print(&quot;This is called as well&quot;)
+}
+
+returnInTheMiddle()
+</code></pre>
+
+<p>This time, second <code>print</code> statement is not called and never will be.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2017-02-15T00:00:00&#43;00:00">Wed, Feb 15, 2017</time>
+      by <a href="http://www.twitter.com/mateusz_karwat/">@mateusz_karwat</a>
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
