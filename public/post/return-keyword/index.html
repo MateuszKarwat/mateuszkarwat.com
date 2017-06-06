@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.17" />
+    <meta name="generator" content="Hugo 0.19" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -105,7 +105,7 @@ returnInTheMiddle()
 
 <p>Now we can be really sure, that if <code>return</code> statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of <code>return</code> statement.</p>
 
-<p>To avoid this kind of behaviour, if you really need to put <code>return</code> statement in the middle of a function, make sure it&rsquo;s either followed by <code>}</code> (which is very common scenario and used everywhere) or <code>;</code> character. <code>;</code><code>character following</code>return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:</p>
+<p>To avoid this kind of behaviour, if you really need to put <code>return</code> statement in the middle of a function, make sure it&rsquo;s either followed by <code>}</code> (which is very common scenario and used everywhere) or <code>;</code> character. <code>;</code> character following <code>return</code> keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:</p>
 
 <pre><code>func returnInTheMiddle() {
   print(&quot;This is called as expected&quot;)

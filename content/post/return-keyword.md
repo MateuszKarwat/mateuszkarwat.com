@@ -40,7 +40,7 @@ With that information in hand I tried to find an actual implementation of it and
 
 Now we can be really sure, that if `return` statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of `return` statement.
 
-To avoid this kind of behaviour, if you really need to put `return` statement in the middle of a function, make sure it's either followed by `}` (which is very common scenario and used everywhere) or `;` character. `;`` character following `return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:
+To avoid this kind of behaviour, if you really need to put `return` statement in the middle of a function, make sure it's either followed by `}` (which is very common scenario and used everywhere) or `;` character. `;` character following `return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:
 
 ```
 func returnInTheMiddle() {

@@ -57,7 +57,7 @@ returnInTheMiddle()
 
 &lt;p&gt;Now we can be really sure, that if &lt;code&gt;return&lt;/code&gt; statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of &lt;code&gt;return&lt;/code&gt; statement.&lt;/p&gt;
 
-&lt;p&gt;To avoid this kind of behaviour, if you really need to put &lt;code&gt;return&lt;/code&gt; statement in the middle of a function, make sure it&amp;rsquo;s either followed by &lt;code&gt;}&lt;/code&gt; (which is very common scenario and used everywhere) or &lt;code&gt;;&lt;/code&gt; character. &lt;code&gt;;&lt;/code&gt;&lt;code&gt;character following&lt;/code&gt;return` keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:&lt;/p&gt;
+&lt;p&gt;To avoid this kind of behaviour, if you really need to put &lt;code&gt;return&lt;/code&gt; statement in the middle of a function, make sure it&amp;rsquo;s either followed by &lt;code&gt;}&lt;/code&gt; (which is very common scenario and used everywhere) or &lt;code&gt;;&lt;/code&gt; character. &lt;code&gt;;&lt;/code&gt; character following &lt;code&gt;return&lt;/code&gt; keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;func returnInTheMiddle() {
   print(&amp;quot;This is called as expected&amp;quot;)
