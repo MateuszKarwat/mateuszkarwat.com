@@ -6,8 +6,30 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2017</rights>
-    <updated>2017-02-15 00:00:00 &#43;0000 UTC</updated>
+    <updated>2017-06-22 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Napi is available</title>
+          <link>http://mateuszkarwat.com/post/napi-release/</link>
+          <pubDate>Thu, 22 Jun 2017 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://mateuszkarwat.com/post/napi-release/</guid>
+          <description>&lt;p&gt;When I was starting my Swift journey I thought the best way to learn a new language is to do a real project instead of writing dummy Playground code.&lt;/p&gt;
+
+&lt;p&gt;I came up with an idea to write macOS application to download subtitles for videos. I always wanted a native application such as this, so it was a perfect project for me to start with. As far as I know, there was no a native macOS application for this.&lt;/p&gt;
+
+&lt;p&gt;And guess what? Now there is! It&amp;rsquo;s called &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/releases/tag/1.0.0&#34;&gt;Napi&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t have much time after work, but I tried my best. After few months I finally released version &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/releases/tag/1.0.0&#34;&gt;1.0.0&lt;/a&gt;. I&amp;rsquo;m really proud of this. I was able to finish &amp;ldquo;not-so-small&amp;rdquo; project and keep really good quality of a codebase (at least I think so). The whole project is available on &lt;a href=&#34;https://github.com/MateuszKarwat/Napi&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m going to write few posts about features of Swift I used and what I was struggling the most with. This is just an initial post to let you know what is coming.&lt;/p&gt;
+
+&lt;p&gt;Once again - &lt;strong&gt;Napi is finally available&lt;/strong&gt;. Enjoy and stay tuned!&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
