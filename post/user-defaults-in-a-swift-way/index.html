@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.19" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://mateuszkarwat.com//index.xml">
+
+    
+    <title>UserDefaults in a Swift way - Mateusz Karwat</title>
+    <meta property='og:title' content="UserDefaults in a Swift way - Mateusz Karwat">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 3em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://mateuszkarwat.com/"/>
+  <meta itemprop="dateModified" content="2017-07-07T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="UserDefaults in a Swift way">
+  <meta itemprop="description" content="UserDefaults is a class used in almost every iOS and macOS project out there. It&rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle UserDefaults.
+The most popular way though is to extend UserDefaults to add properties with custom getters and setters.
+extension UserDefaults { private struct Keys { let convertSubtitles = &quot;convertSubtitles&quot; } var convertSubtitles: Bool { get { bool(forKey: Keys.">
+  <meta itemprop="url" content="http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://mateuszkarwat.com/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Mateusz Karwat">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>UserDefaults in a Swift way</h1>
+    <h2 class="headline"> Readable and type safe UserDefaults </h2>
+  </header>
+
+  <section class="postbody">
+    <p><a href="https://developer.apple.com/documentation/foundation/userdefaults">UserDefaults</a> is a class used in almost every iOS and macOS project out there. It&rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle <code>UserDefaults</code>.</p>
+
+<p>The most popular way though is to extend <code>UserDefaults</code> to add properties with custom getters and setters.</p>
+
+<pre><code>extension UserDefaults {
+  private struct Keys {
+    let convertSubtitles = &quot;convertSubtitles&quot;
+  }
+
+  var convertSubtitles: Bool {
+    get { bool(forKey: Keys.convertSubtitles) }
+    set { set(newValue, forKey: Keys.convertSubtitles) }
+  }
+}
+
+UserDefaults.standard.convertSubtitles = false
+let shouldConvert = UserDefaults.standard.convertSubtitles
+</code></pre>
+
+<p>It looks nice and clean when you use it. However, if you have a lot of keys it can grow really fast and file with all keys and properties becomes messy. Please also notice that there is a lot of <code>convertSubtitles</code> repetition. To avoid it we can use Swift&rsquo;s <code>#function</code> keyword if property name is the same as the key it uses. <code>#function</code> returns a <code>String</code> with name of the declaration in which it appears.</p>
+
+<pre><code>extension UserDefaults {
+  var convertSubtitles: Bool {
+    get { bool(forKey: #function) }
+    set { set(newValue, forKey: #function) }
+  }
+}
+
+UserDefaults.standard.convertSubtitles = false
+let shouldConvert = UserDefaults.standard.convertSubtitles
+</code></pre>
+
+<p>Sometimes developers create an extra struct to avoid writing <code>UserDefaults.standard</code> all over again.</p>
+
+<pre><code>struct Preferences {
+  private let defaults = UserDefaults.standard
+
+  static var convertSubtitles: Bool {
+    get { defaults.bool(forKey: #function) }
+    set { defaults.set(newValue, forKey: #function) }
+  }
+}
+
+Preferences.convertSubtitles = false
+let shouldConvert = Preferences.convertSubtitles
+</code></pre>
+
+<p>And I love it. It&rsquo;s smart, simple and clean. The only problem I see is that sometimes you need a property with a different name than the key itself. <code>#function</code> keyword does not allow it, so you would have to use something like <code>Keys</code> struct anyway.</p>
+
+<p>So, can we do better? Sure we can. Let&rsquo;s create an extension of <code>UserDefaults</code>, but this time with substring which takes a value of our own type <code>DefaultsKey</code>.</p>
+
+<pre><code>let Preferences = UserDefaults.standard
+
+class Defaults {
+  fileprivate init() {}
+}
+
+class DefaultsKey&lt;ValueType&gt;: Defaults {
+  let key: String
+
+  init(_ key: String) {
+    self.key = key
+  }
+}
+
+extension UserDefaults {
+  subscript(key: DefaultsKey&lt;Bool&gt;) -&gt; Bool {
+    get { return bool(forKey: key.key) }
+    set { set(newValue, forKey: key.key) }
+  }
+}    
+</code></pre>
+
+<p>Some of this code might look redundant, but let&rsquo;s take a look how we can add support for <code>String</code>. To do this, we just add another subscript.</p>
+
+<pre><code>extension UserDefaults {
+  subscript(key: DefaultsKey&lt;String?&gt;) -&gt; String? {
+    get { return string(forKey: key.key) }
+    set { set(newValue, forKey: key.key) }
+  }
+}    
+</code></pre>
+
+<p><em>&ldquo;Yeah, that&rsquo;s all great, but what does it give me?&rdquo;</em>. Once you have subscripts for all types you want, adding a new key to <code>UserDefaults</code> is as easy as this:</p>
+
+<pre><code>extension Defaults {
+  static let convertSubtitles = DefaultsKey&lt;Bool&gt;(&quot;convertSubtitles&quot;)
+}
+
+Preferences[.convertSubtitles] = false
+let shouldConvert = Preferences[.convertSubtitles]
+</code></pre>
+
+<p>&hellip; and that&rsquo;s it! In my opinion it&rsquo;s a really neat way to use <code>UserDefaults</code> and of course I used it in <a href="https://github.com/MateuszKarwat/Napi/blob/master/Napi/Models/Preferences.swift">Napi</a>.</p>
+
+<p>This approach is based on an awesome framework called <a href="https://github.com/radex/SwiftyUserDefaults">SwiftyUserDefaults</a>. I highly recommend you to get familiar with it, especially with a set of Radek&rsquo;s blog posts listed in <a href="https://github.com/radex/SwiftyUserDefaults#more-like-this">More like this</a> section.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2017-07-07T00:00:00&#43;00:00">Fri, Jul 7, 2017</time>
+      by <a href="http://www.twitter.com/mateusz_karwat/">@mateusz_karwat</a>
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
