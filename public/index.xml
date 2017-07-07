@@ -6,8 +6,115 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2017</rights>
-    <updated>2017-06-22 00:00:00 &#43;0000 UTC</updated>
+    <updated>2017-07-07 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>UserDefaults in a Swift way</title>
+          <link>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</link>
+          <pubDate>Fri, 07 Jul 2017 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;https://developer.apple.com/documentation/foundation/userdefaults&#34;&gt;UserDefaults&lt;/a&gt; is a class used in almost every iOS and macOS project out there. It&amp;rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle &lt;code&gt;UserDefaults&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The most popular way though is to extend &lt;code&gt;UserDefaults&lt;/code&gt; to add properties with custom getters and setters.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extension UserDefaults {
+  private struct Keys {
+    let convertSubtitles = &amp;quot;convertSubtitles&amp;quot;
+  }
+
+  var convertSubtitles: Bool {
+    get { bool(forKey: Keys.convertSubtitles) }
+    set { set(newValue, forKey: Keys.convertSubtitles) }
+  }
+}
+
+UserDefaults.standard.convertSubtitles = false
+let shouldConvert = UserDefaults.standard.convertSubtitles
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It looks nice and clean when you use it. However, if you have a lot of keys it can grow really fast and file with all keys and properties becomes messy. Please also notice that there is a lot of &lt;code&gt;convertSubtitles&lt;/code&gt; repetition. To avoid it we can use Swift&amp;rsquo;s &lt;code&gt;#function&lt;/code&gt; keyword if property name is the same as the key it uses. &lt;code&gt;#function&lt;/code&gt; returns a &lt;code&gt;String&lt;/code&gt; with name of the declaration in which it appears.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extension UserDefaults {
+  var convertSubtitles: Bool {
+    get { bool(forKey: #function) }
+    set { set(newValue, forKey: #function) }
+  }
+}
+
+UserDefaults.standard.convertSubtitles = false
+let shouldConvert = UserDefaults.standard.convertSubtitles
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Sometimes developers create an extra struct to avoid writing &lt;code&gt;UserDefaults.standard&lt;/code&gt; all over again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct Preferences {
+  private let defaults = UserDefaults.standard
+
+  static var convertSubtitles: Bool {
+    get { defaults.bool(forKey: #function) }
+    set { defaults.set(newValue, forKey: #function) }
+  }
+}
+
+Preferences.convertSubtitles = false
+let shouldConvert = Preferences.convertSubtitles
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And I love it. It&amp;rsquo;s smart, simple and clean. The only problem I see is that sometimes you need a property with a different name than the key itself. &lt;code&gt;#function&lt;/code&gt; keyword does not allow it, so you would have to use something like &lt;code&gt;Keys&lt;/code&gt; struct anyway.&lt;/p&gt;
+
+&lt;p&gt;So, can we do better? Sure we can. Let&amp;rsquo;s create an extension of &lt;code&gt;UserDefaults&lt;/code&gt;, but this time with substring which takes a value of our own type &lt;code&gt;DefaultsKey&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let Preferences = UserDefaults.standard
+
+class Defaults {
+  fileprivate init() {}
+}
+
+class DefaultsKey&amp;lt;ValueType&amp;gt;: Defaults {
+  let key: String
+
+  init(_ key: String) {
+    self.key = key
+  }
+}
+
+extension UserDefaults {
+  subscript(key: DefaultsKey&amp;lt;Bool&amp;gt;) -&amp;gt; Bool {
+    get { return bool(forKey: key.key) }
+    set { set(newValue, forKey: key.key) }
+  }
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Some of this code might look redundant, but let&amp;rsquo;s take a look how we can add support for &lt;code&gt;String&lt;/code&gt;. To do this, we just add another subscript.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extension UserDefaults {
+  subscript(key: DefaultsKey&amp;lt;String?&amp;gt;) -&amp;gt; String? {
+    get { return string(forKey: key.key) }
+    set { set(newValue, forKey: key.key) }
+  }
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Yeah, that&amp;rsquo;s all great, but what does it give me?&amp;rdquo;&lt;/em&gt;. Once you have subscripts for all types you want, adding a new key to &lt;code&gt;UserDefaults&lt;/code&gt; is as easy as this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;extension Defaults {
+  static let convertSubtitles = DefaultsKey&amp;lt;Bool&amp;gt;(&amp;quot;convertSubtitles&amp;quot;)
+}
+
+Preferences[.convertSubtitles] = false
+let shouldConvert = Preferences[.convertSubtitles]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;hellip; and that&amp;rsquo;s it! In my opinion it&amp;rsquo;s a really neat way to use &lt;code&gt;UserDefaults&lt;/code&gt; and of course I used it in &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/blob/master/Napi/Models/Preferences.swift&#34;&gt;Napi&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This approach is based on an awesome framework called &lt;a href=&#34;https://github.com/radex/SwiftyUserDefaults&#34;&gt;SwiftyUserDefaults&lt;/a&gt;. I highly recommend you to get familiar with it, especially with a set of Radek&amp;rsquo;s blog posts listed in &lt;a href=&#34;https://github.com/radex/SwiftyUserDefaults#more-like-this&#34;&gt;More like this&lt;/a&gt; section.&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
