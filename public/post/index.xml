@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Mateusz Karwat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mateuszkarwat.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Native binding</title>
+      <link>http://mateuszkarwat.com/post/native-binding/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://mateuszkarwat.com/post/native-binding/</guid>
+      <description>Did you know that you can, while developing macOS application, use UI binding to a view model without any reactive framework whatsoever?
+While I was working on a preferences window for Napi application, I was thinking how to pin UI to a model. Because we want to store user&amp;rsquo;s choice permanently, usually the UI is directly connected to UserDefaults.
+First thing that comes to mind is to detect when a checkbox changes its state and store a new value in UserDefaults.</description>
+    </item>
     
     <item>
       <title>Type safe Storyboard Identifiers</title>
