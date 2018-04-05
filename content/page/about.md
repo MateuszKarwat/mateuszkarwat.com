@@ -1,7 +1,7 @@
 Hi!  
 I'm Mateusz Karwat and I live in Wrocław, Poland.  
 
-I'm a developer though I currently work as a Quality Assurance Engineer in [Opera][1]. Nevertheless, I'm in love with [Swift][2] and lately I put all my effort in this language and platforms related with it.
+I'm a developer and I'm in love with [Swift][2]. Lately, I put all my effort in [Swift][2] language and platforms related with it.
 
 To see what I've published so far you can visit my [Github profile][3]. To find out more about my professional experience you can go to [this page][4] or visit my [LinkedIn profile][5].
 

@@ -1,359 +1,67 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mateusz Karwat </title>
-    <link>http://mateuszkarwat.com/post/index.xml</link>
+    <title>Posts on Mateusz Karwat</title>
+    <link>http://mateuszkarwat.com/post/</link>
+    <description>Recent content in Posts on Mateusz Karwat</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2017-07-21 00:00:00 &#43;0000 UTC</updated>
-
+    <lastBuildDate>Fri, 21 Jul 2017 00:00:00 +0000</lastBuildDate>
     
-      
-        <item>
-          <title>Type safe Storyboard Identifiers</title>
-          <link>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</link>
-          <pubDate>Fri, 21 Jul 2017 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</guid>
-          <description>&lt;p&gt;I don&amp;rsquo;t like to have hardcoded &lt;code&gt;Strings&lt;/code&gt; anywhere in my codebase. If you use &lt;a href=&#34;https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/Storyboard.html&#34;&gt;Storyboards&lt;/a&gt; in your project, you probably wrote a code similar to the following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let storyboard = UIStoryboard(name: &amp;quot;MyStoryboardName&amp;quot;, bundle: nil)
-let controller = storyboard.instantiateViewController(withIdentifier: &amp;quot;MyViewController&amp;quot;) as! MyViewController
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I tried to eliminate a need of writing &lt;code&gt;MyStoryboardName&lt;/code&gt; and &lt;code&gt;MyViewController&lt;/code&gt;. If you make a typo, it might lead to a crash very easilly. At the time I was looking into an awesome implementation of &lt;a href=&#34;https://github.com/kickstarter/ios-oss&#34;&gt;Kickstarter&lt;/a&gt; application. I noticed that they have a really neat way to instantiate a View Controller. Let&amp;rsquo;s take a look&amp;hellip;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;enum Storyboard: String {
-    case Main
-    case Preferences
-}
-
-extension Storyboard {
-    func instantiate&amp;lt;C: StoryboardIdentifiable&amp;gt;(_ viewController: C.Type, inBundle bundle: Bundle = .main) -&amp;gt; C {
-        guard let vc = NSStoryboard(name: self.rawValue, bundle: bundle)
-                  .instantiateController(withIdentifier: C.storyboardIdentifier) as? C
-        else {
-            fatalError(&amp;quot;Couldn&#39;t instantiate \(C.storyboardIdentifier) from \(self.rawValue)&amp;quot;)
-        }
-
-        return vc
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To make it work though we have to create a &lt;code&gt;StoryboardIdentifiable&lt;/code&gt; protocol.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;protocol StoryboardIdentifiable {
-    var storyboardIdentifier: String { get }
-    static var storyboardIdentifier: String { get }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It&amp;rsquo;s super easy to create a default implementation of this protocol. We just need to return a &lt;code&gt;String&lt;/code&gt; based on &lt;code&gt;self&lt;/code&gt;&amp;rsquo;s type.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension StoryboardIdentifiable {
-    var storyboardIdentifier: String {
-        return String(reflecting: self).components(separatedBy: &amp;quot;.&amp;quot;).dropFirst().joined(separator: &amp;quot;.&amp;quot;)
-    }
-
-    static var storyboardIdentifier: String {
-        return String(reflecting: self).components(separatedBy: &amp;quot;.&amp;quot;).dropFirst().joined(separator: &amp;quot;.&amp;quot;)
-    }
-
-    var description: String {
-        return storyboardIdentifier
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;With this implementation, if you call &lt;code&gt;storyboardIdentifier&lt;/code&gt; on &lt;code&gt;MyViewController&lt;/code&gt;, you will receive &lt;code&gt;&amp;quot;MyViewController&amp;quot;&lt;/code&gt;.
-Now, we can make desired class conforming to it. In my case it was &lt;code&gt;NSViewController&lt;/code&gt; and &lt;code&gt;NSWindowController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension NSViewController: StoryboardIdentifiable { }
-
-extension NSWindowController: StoryboardIdentifiable { }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That&amp;rsquo;s it. We can give it a spin now. In order to do so, we need to set an identifier of specific View Controller in Storyboard the same as its name. Then we can instantiate it as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let myViewController = Storyboard.Main.instantiate(MyViewController.self)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It&amp;rsquo;s neat, isn&amp;rsquo;t it? &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/blob/master/Napi/Views/Storyboards/Storyboard.swift&#34;&gt;Here&lt;/a&gt; you can find the whole implementation I use in &lt;a href=&#34;https://github.com/MateuszKarwat/Napi&#34;&gt;Napi&lt;/a&gt;.&lt;/p&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://mateuszkarwat.com/post/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>UserDefaults in a Swift way</title>
-          <link>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</link>
-          <pubDate>Fri, 07 Jul 2017 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;https://developer.apple.com/documentation/foundation/userdefaults&#34;&gt;UserDefaults&lt;/a&gt; is a class used in almost every iOS and macOS project out there. It&amp;rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle &lt;code&gt;UserDefaults&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The most popular way though is to extend &lt;code&gt;UserDefaults&lt;/code&gt; to add properties with custom getters and setters.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension UserDefaults {
-  private struct Keys {
-    let convertSubtitles = &amp;quot;convertSubtitles&amp;quot;
-  }
-
-  var convertSubtitles: Bool {
-    get { bool(forKey: Keys.convertSubtitles) }
-    set { set(newValue, forKey: Keys.convertSubtitles) }
-  }
-}
-
-UserDefaults.standard.convertSubtitles = false
-let shouldConvert = UserDefaults.standard.convertSubtitles
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It looks nice and clean when you use it. However, if you have a lot of keys it can grow really fast and file with all keys and properties becomes messy. Please also notice that there is a lot of &lt;code&gt;convertSubtitles&lt;/code&gt; repetition. To avoid it we can use Swift&amp;rsquo;s &lt;code&gt;#function&lt;/code&gt; keyword if property name is the same as the key it uses. &lt;code&gt;#function&lt;/code&gt; returns a &lt;code&gt;String&lt;/code&gt; with name of the declaration in which it appears.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension UserDefaults {
-  var convertSubtitles: Bool {
-    get { bool(forKey: #function) }
-    set { set(newValue, forKey: #function) }
-  }
-}
-
-UserDefaults.standard.convertSubtitles = false
-let shouldConvert = UserDefaults.standard.convertSubtitles
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Sometimes developers create an extra struct to avoid writing &lt;code&gt;UserDefaults.standard&lt;/code&gt; all over again.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;struct Preferences {
-  private let defaults = UserDefaults.standard
-
-  static var convertSubtitles: Bool {
-    get { defaults.bool(forKey: #function) }
-    set { defaults.set(newValue, forKey: #function) }
-  }
-}
-
-Preferences.convertSubtitles = false
-let shouldConvert = Preferences.convertSubtitles
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And I love it. It&amp;rsquo;s smart, simple and clean. The only problem I see is that sometimes you need a property with a different name than the key itself. &lt;code&gt;#function&lt;/code&gt; keyword does not allow it, so you would have to use something like &lt;code&gt;Keys&lt;/code&gt; struct anyway.&lt;/p&gt;
-
-&lt;p&gt;So, can we do better? Sure we can. Let&amp;rsquo;s create an extension of &lt;code&gt;UserDefaults&lt;/code&gt;, but this time with substring which takes a value of our own type &lt;code&gt;DefaultsKey&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let Preferences = UserDefaults.standard
-
-class Defaults {
-  fileprivate init() {}
-}
-
-class DefaultsKey&amp;lt;ValueType&amp;gt;: Defaults {
-  let key: String
-
-  init(_ key: String) {
-    self.key = key
-  }
-}
-
-extension UserDefaults {
-  subscript(key: DefaultsKey&amp;lt;Bool&amp;gt;) -&amp;gt; Bool {
-    get { return bool(forKey: key.key) }
-    set { set(newValue, forKey: key.key) }
-  }
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Some of this code might look redundant, but let&amp;rsquo;s take a look how we can add support for &lt;code&gt;String&lt;/code&gt;. To do this, we just add another subscript.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension UserDefaults {
-  subscript(key: DefaultsKey&amp;lt;String?&amp;gt;) -&amp;gt; String? {
-    get { return string(forKey: key.key) }
-    set { set(newValue, forKey: key.key) }
-  }
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;Yeah, that&amp;rsquo;s all great, but what does it give me?&amp;rdquo;&lt;/em&gt;. Once you have subscripts for all types you want, adding a new key to &lt;code&gt;UserDefaults&lt;/code&gt; is as easy as this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;extension Defaults {
-  static let convertSubtitles = DefaultsKey&amp;lt;Bool&amp;gt;(&amp;quot;convertSubtitles&amp;quot;)
-}
-
-Preferences[.convertSubtitles] = false
-let shouldConvert = Preferences[.convertSubtitles]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&amp;hellip; and that&amp;rsquo;s it! In my opinion it&amp;rsquo;s a really neat way to use &lt;code&gt;UserDefaults&lt;/code&gt; and of course I used it in &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/blob/master/Napi/Models/Preferences.swift&#34;&gt;Napi&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This approach is based on an awesome framework called &lt;a href=&#34;https://github.com/radex/SwiftyUserDefaults&#34;&gt;SwiftyUserDefaults&lt;/a&gt;. I highly recommend you to get familiar with it, especially with a set of Radek&amp;rsquo;s blog posts listed in &lt;a href=&#34;https://github.com/radex/SwiftyUserDefaults#more-like-this&#34;&gt;More like this&lt;/a&gt; section.&lt;/p&gt;
-</description>
-        </item>
-      
     
+    <item>
+      <title>Type safe Storyboard Identifiers</title>
+      <link>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</link>
+      <pubDate>Fri, 21 Jul 2017 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Napi is available</title>
-          <link>http://mateuszkarwat.com/post/napi-release/</link>
-          <pubDate>Thu, 22 Jun 2017 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/napi-release/</guid>
-          <description>&lt;p&gt;When I was starting my Swift journey I thought the best way to learn a new language is to do a real project instead of writing dummy Playground code.&lt;/p&gt;
-
-&lt;p&gt;I came up with an idea to write macOS application to download subtitles for videos. I always wanted a native application such as this, so it was a perfect project for me to start with. As far as I know, there was no a native macOS application for this.&lt;/p&gt;
-
-&lt;p&gt;And guess what? Now there is! It&amp;rsquo;s called &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/releases/tag/1.0.0&#34;&gt;Napi&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I didn&amp;rsquo;t have much time after work, but I tried my best. After few months I finally released version &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/releases/tag/1.0.0&#34;&gt;1.0.0&lt;/a&gt;. I&amp;rsquo;m really proud of this. I was able to finish &amp;ldquo;not-so-small&amp;rdquo; project and keep really good quality of a codebase (at least I think so). The whole project is available on &lt;a href=&#34;https://github.com/MateuszKarwat/Napi&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m going to write few posts about features of Swift I used and what I was struggling the most with. This is just an initial post to let you know what is coming.&lt;/p&gt;
-
-&lt;p&gt;Once again - &lt;strong&gt;Napi is finally available&lt;/strong&gt;. Enjoy and stay tuned!&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</guid>
+      <description>I don&amp;rsquo;t like to have hardcoded Strings anywhere in my codebase. If you use Storyboards in your project, you probably wrote a code similar to the following:
+let storyboard = UIStoryboard(name: &amp;quot;MyStoryboardName&amp;quot;, bundle: nil) let controller = storyboard.instantiateViewController(withIdentifier: &amp;quot;MyViewController&amp;quot;) as! MyViewController  I tried to eliminate a need of writing MyStoryboardName and MyViewController. If you make a typo, it might lead to a crash very easilly. At the time I was looking into an awesome implementation of Kickstarter application.</description>
+    </item>
     
+    <item>
+      <title>UserDefaults in a Swift way</title>
+      <link>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</link>
+      <pubDate>Fri, 07 Jul 2017 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Return keyword and following expression</title>
-          <link>http://mateuszkarwat.com/post/return-keyword/</link>
-          <pubDate>Wed, 15 Feb 2017 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/return-keyword/</guid>
-          <description>&lt;p&gt;Lately I was left with question which made me a bit like &amp;ldquo;whaaaaaat?&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;A friend of mine told me that some time ago while he was debugging something, he used a &lt;code&gt;return&lt;/code&gt; keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following &lt;code&gt;return&lt;/code&gt; statement had been called anyway.&lt;/p&gt;
-
-&lt;p&gt;To simplify our problem let&amp;rsquo;s make a very easy example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func returnInTheMiddle() {
-  print(&amp;quot;This is called as expected&amp;quot;)
-  return
-  print(&amp;quot;This is called as well&amp;quot;)
-}
-
-returnInTheMiddle()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When you run that piece of code, you&amp;rsquo;ll see that &lt;strong&gt;second &lt;code&gt;print&lt;/code&gt; statement will be called. Why is that?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Fortunately Xcode doesn&amp;rsquo;t leave us without a warning here. It displays the following message:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Expression following &amp;lsquo;return&amp;rsquo; is treated as an argument of a &amp;lsquo;return&amp;rsquo;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;That pretty much is an answers to our question. When &lt;code&gt;return&lt;/code&gt; is being called it sometimes takes an expression, which in this case is a function. Passed function is called before its return value is passed to the &lt;code&gt;return&lt;/code&gt; statement. That&amp;rsquo;s why second &lt;code&gt;print&lt;/code&gt; statement is called.&lt;/p&gt;
-
-&lt;p&gt;Despite how good that answer is, I wanted to know how actually &lt;code&gt;return&lt;/code&gt; keyword is implemented. What kind of expression it actually is.&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&#34;https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/Statements.html#//apple_ref/doc/uid/TP40014097-CH33-ID428&#34;&gt;Statements&lt;/a&gt; chapter of &lt;a href=&#34;https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/AboutTheLanguageReference.html#//apple_ref/doc/uid/TP40014097-CH29-ID345&#34;&gt;Language Reference&lt;/a&gt; we can find a description of a &lt;code&gt;return&lt;/code&gt; keyword, which also contains information about any following expression:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;When a return statement is followed by an expression, the value of the expression is returned to the calling function or method. If the value of the expression does not match the value of the return type declared in the function or method declaration, the expression’s value is converted to the return type before it is returned to the calling function or method.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;With that information in hand I tried to find an actual implementation of it and I did find what I was looking for. Parsing &lt;code&gt;return&lt;/code&gt; statement is located in &lt;a href=&#34;https://github.com/apple/swift/blob/cb3bdcc2a36699abf1b7d5b0a791b9011959ac4a/lib/Parse/ParseStmt.cpp&#34;&gt;ParseStmt.cpp&lt;/a&gt; file and function which does that is called &lt;code&gt;ParserResult&amp;lt;Stmt&amp;gt; Parser::parseStmtReturn(SourceLoc tryLoc)&lt;/code&gt;. There is one particular comment which is interesting:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Handle the ambiguity between consuming the expression and allowing the enclosing stmt-brace to get it by eagerly eating it unless the return is followed by a &amp;lsquo;}&amp;rsquo;, &amp;lsquo;;&amp;rsquo;, statement or decl start keyword sequence.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Now we can be really sure, that if &lt;code&gt;return&lt;/code&gt; statement is followed by an expression which returns the same type as a type of calling function, it will be called and treated as an argument of &lt;code&gt;return&lt;/code&gt; statement.&lt;/p&gt;
-
-&lt;p&gt;To avoid this kind of behaviour, if you really need to put &lt;code&gt;return&lt;/code&gt; statement in the middle of a function, make sure it&amp;rsquo;s either followed by &lt;code&gt;}&lt;/code&gt; (which is very common scenario and used everywhere) or &lt;code&gt;;&lt;/code&gt; character. &lt;code&gt;;&lt;/code&gt; character following &lt;code&gt;return&lt;/code&gt; keyword is not a very good idea. Using that, you probably have some code which has no chance to be called. Anyway, for debugging purposes our example could look like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func returnInTheMiddle() {
-  print(&amp;quot;This is called as expected&amp;quot;)
-  return;
-  print(&amp;quot;This is called as well&amp;quot;)
-}
-
-returnInTheMiddle()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This time, second &lt;code&gt;print&lt;/code&gt; statement is not called and never will be.&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</guid>
+      <description>UserDefaults is a class used in almost every iOS and macOS project out there. It&amp;rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle UserDefaults.
+The most popular way though is to extend UserDefaults to add properties with custom getters and setters.
+extension UserDefaults { private struct Keys { let convertSubtitles = &amp;quot;convertSubtitles&amp;quot; } var convertSubtitles: Bool { get { bool(forKey: Keys.</description>
+    </item>
     
+    <item>
+      <title>Napi is available</title>
+      <link>http://mateuszkarwat.com/post/napi-release/</link>
+      <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Nested Protocols</title>
-          <link>http://mateuszkarwat.com/post/nested-protocols/</link>
-          <pubDate>Sat, 26 Nov 2016 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/nested-protocols/</guid>
-          <description>&lt;p&gt;Yesterday my friend who has been transfered from iOS team to Android team
-showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, according to the &lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/NestedTypes.html&#34;&gt;Swift documentation&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;It means that currently in Swift there is no way to define a nested protocol. In other words - protocols are valid at file scope only.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;But why would it be nice to have anyway?&lt;/em&gt; - you may ask. Imagine you could write a code like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// Please remember that this code won&#39;t compile.
-
-class FileInformationProvider {
-  protocol Delegate: class { }
-
-  weak var delegate: Delegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you would like to create a class which conforms to that protocol, you would write:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class FileManager: FileInformationProvider.Delegate { }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I&amp;rsquo;m sure you can see an advantage of this approach. There is no need to create a protocol called &lt;code&gt;FileInformationProviderDelegate&lt;/code&gt; which is declared out of &lt;code&gt;FileInformationProvider&lt;/code&gt; namespace. Having a nested protocol limits it inside a type to which it refers directly to. It gives more clarity to our code without a need of wondering which specific class uses this delegate protocol.&lt;/p&gt;
-
-&lt;p&gt;In Swift it&amp;rsquo;s very common practice to create a nested &lt;code&gt;struct&lt;/code&gt; or &lt;code&gt;enum&lt;/code&gt; to store all constants, states or keys used within a specific scope. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class InformationFetcher {
-  struct Constants {
-    static let baseURL = &amp;quot;http://mateuszkarwat.com&amp;quot;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So how can we achieve the same namespacing with protocols? I came up with one solution. It involves a &lt;code&gt;typealias&lt;/code&gt; keyword. The &lt;code&gt;typealias&lt;/code&gt; keyword introduces a named alias of an existing type into your program&lt;sup&gt;&lt;a href=&#34;#fn1&#34; id=&#34;ref1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. Here is what we can do:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;protocol FileInformationProviderDelegate { }
-
-class FileInformationProvider {
-  typealias Delegate = FileInformationProviderDelegate
-
-  weak var delegate: Delegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Our code compiles now and we can conform to nested protocol by calling &lt;code&gt;FileInformationProvider.Delegate&lt;/code&gt; just as we wanted. It doesn&amp;rsquo;t hide &lt;code&gt;FileInformationProviderDelegate&lt;/code&gt; declaration though, so the protocol is still accessible outside &lt;code&gt;FileInformationProvider&lt;/code&gt; namespace. However, with this approach we can go further and for example create nested protocols like &lt;code&gt;.DataSource&lt;/code&gt; in our table view controllers.&lt;/p&gt;
-
-&lt;p&gt;Is this any better than just:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class FileInformationProvider {
-  weak var delegate: FileInformationProviderDelegate?
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I don&amp;rsquo;t know. I guess it&amp;rsquo;s totally up to you. You might say that this solution requires a bit more code to write and probably looks like some kind of a workaround. It&amp;rsquo;s absolutely true. I&amp;rsquo;m not a big fan of it either and I probably won&amp;rsquo;t use it. The goal here was to show you there is a way to create a &amp;ldquo;nestedish&amp;rdquo; protocol in Swift in case you desperately need it.&lt;/p&gt;
-
-&lt;p&gt;If you come up with better solution, please let me know. I would love to try it out.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;sup id=&#34;fn1&#34;&gt;1. &lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID361&#34;&gt;The Swift Programming Language - Type Alias Declaration&lt;/a&gt;&lt;a href=&#34;#ref1&#34; title=&#34;Jump back to footnote 1 in the text.&#34;&gt;↩&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://mateuszkarwat.com/post/napi-release/</guid>
+      <description>When I was starting my Swift journey I thought the best way to learn a new language is to do a real project instead of writing dummy Playground code.
+I came up with an idea to write macOS application to download subtitles for videos. I always wanted a native application such as this, so it was a perfect project for me to start with. As far as I know, there was no a native macOS application for this.</description>
+    </item>
     
-
+    <item>
+      <title>Return keyword and following expression</title>
+      <link>http://mateuszkarwat.com/post/return-keyword/</link>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://mateuszkarwat.com/post/return-keyword/</guid>
+      <description>Lately I was left with question which made me a bit like &amp;ldquo;whaaaaaat?&amp;rdquo;.
+A friend of mine told me that some time ago while he was debugging something, he used a return keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following return statement had been called anyway.</description>
+    </item>
+    
+    <item>
+      <title>Nested Protocols</title>
+      <link>http://mateuszkarwat.com/post/nested-protocols/</link>
+      <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://mateuszkarwat.com/post/nested-protocols/</guid>
+      <description>Yesterday my friend who has been transfered from iOS team to Android team showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.
+Unfortunately, according to the Swift documentation:
+ Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.</description>
+    </item>
+    
   </channel>
 </rss>
