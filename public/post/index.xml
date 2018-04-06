@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Mateusz Karwat</title>
-    <link>http://mateuszkarwat.com/post/</link>
+    <link>https://mateuszkarwat.com/post/</link>
     <description>Recent content in Posts on Mateusz Karwat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://mateuszkarwat.com/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://mateuszkarwat.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Native binding</title>
-      <link>http://mateuszkarwat.com/post/native-binding/</link>
+      <link>https://mateuszkarwat.com/post/native-binding/</link>
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/native-binding/</guid>
+      <guid>https://mateuszkarwat.com/post/native-binding/</guid>
       <description>Did you know that you can, while developing macOS application, use UI binding to a view model without any reactive framework whatsoever?
 While I was working on a preferences window for Napi application, I was thinking how to pin UI to a model. Because we want to store user&amp;rsquo;s choice permanently, usually the UI is directly connected to UserDefaults.
 First thing that comes to mind is to detect when a checkbox changes its state and store a new value in UserDefaults.</description>
@@ -24,20 +24,20 @@ First thing that comes to mind is to detect when a checkbox changes its state an
     
     <item>
       <title>Type safe Storyboard Identifiers</title>
-      <link>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</link>
+      <link>https://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</link>
       <pubDate>Fri, 21 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</guid>
+      <guid>https://mateuszkarwat.com/post/type-safe-storyboard-identifiers/</guid>
       <description>I don&amp;rsquo;t like to have hardcoded Strings anywhere in my codebase. If you use Storyboards in your project, you probably wrote a code similar to the following:
 let storyboard = UIStoryboard(name: &amp;quot;MyStoryboardName&amp;quot;, bundle: nil) let controller = storyboard.instantiateViewController(withIdentifier: &amp;quot;MyViewController&amp;quot;) as! MyViewController  I tried to eliminate a need of writing MyStoryboardName and MyViewController. If you make a typo, it might lead to a crash very easilly. At the time I was looking into an awesome implementation of Kickstarter application.</description>
     </item>
     
     <item>
       <title>UserDefaults in a Swift way</title>
-      <link>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</link>
+      <link>https://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</link>
       <pubDate>Fri, 07 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</guid>
+      <guid>https://mateuszkarwat.com/post/user-defaults-in-a-swift-way/</guid>
       <description>UserDefaults is a class used in almost every iOS and macOS project out there. It&amp;rsquo;s the most common way to store key-value pairs persistently. I saw a lot of projects and almost every one of them had its own unique way to handle UserDefaults.
 The most popular way though is to extend UserDefaults to add properties with custom getters and setters.
 extension UserDefaults { private struct Keys { let convertSubtitles = &amp;quot;convertSubtitles&amp;quot; } var convertSubtitles: Bool { get { bool(forKey: Keys.</description>
@@ -45,30 +45,30 @@ extension UserDefaults { private struct Keys { let convertSubtitles = &amp;quot;
     
     <item>
       <title>Napi is available</title>
-      <link>http://mateuszkarwat.com/post/napi-release/</link>
+      <link>https://mateuszkarwat.com/post/napi-release/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/napi-release/</guid>
+      <guid>https://mateuszkarwat.com/post/napi-release/</guid>
       <description>When I was starting my Swift journey I thought the best way to learn a new language is to do a real project instead of writing dummy Playground code.
 I came up with an idea to write macOS application to download subtitles for videos. I always wanted a native application such as this, so it was a perfect project for me to start with. As far as I know, there was no a native macOS application for this.</description>
     </item>
     
     <item>
       <title>Return keyword and following expression</title>
-      <link>http://mateuszkarwat.com/post/return-keyword/</link>
+      <link>https://mateuszkarwat.com/post/return-keyword/</link>
       <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/return-keyword/</guid>
+      <guid>https://mateuszkarwat.com/post/return-keyword/</guid>
       <description>Lately I was left with question which made me a bit like &amp;ldquo;whaaaaaat?&amp;rdquo;.
 A friend of mine told me that some time ago while he was debugging something, he used a return keyword in the middle of a function, because he wanted to check what happens when that function ends its execution earlier. He was really surprised when it turned out that a function following return statement had been called anyway.</description>
     </item>
     
     <item>
       <title>Nested Protocols</title>
-      <link>http://mateuszkarwat.com/post/nested-protocols/</link>
+      <link>https://mateuszkarwat.com/post/nested-protocols/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mateuszkarwat.com/post/nested-protocols/</guid>
+      <guid>https://mateuszkarwat.com/post/nested-protocols/</guid>
       <description>Yesterday my friend who has been transfered from iOS team to Android team showed me something he thinks is really cool in Java and he would love to see in Swift. He showed me that there is a possibility to put an interface declaration inside a class. In Swift it means - put a protocol definition inside a struct, class or enum definition.
 Unfortunately, according to the Swift documentation:
  Swift enables you to define nested types, whereby you nest supporting enumerations, classes, and structures within the definition of the type they support.</description>
