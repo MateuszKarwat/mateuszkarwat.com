@@ -5,53 +5,9 @@
     <link>http://mateuszkarwat.com/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2018</rights>
-    <updated>2018-04-05 00:00:00 &#43;0000 UTC</updated>
+    <rights>(C) 2017</rights>
+    <updated>2017-07-21 00:00:00 &#43;0000 UTC</updated>
 
-    
-      
-        <item>
-          <title>Native binding</title>
-          <link>http://mateuszkarwat.com/post/native-binding/</link>
-          <pubDate>Thu, 05 Apr 2018 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://mateuszkarwat.com/post/native-binding/</guid>
-          <description>&lt;p&gt;Did you know that you can, while developing macOS application, use UI binding to a view model without any reactive framework whatsoever?&lt;/p&gt;
-
-&lt;p&gt;While I was working on a preferences window for &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/&#34;&gt;Napi&lt;/a&gt; application, I was thinking how to pin UI to a model. Because we want to store user&amp;rsquo;s choice permanently, usually the UI is directly connected to &lt;a href=&#34;https://developer.apple.com/documentation/foundation/userdefaults&#34;&gt;UserDefaults&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;First thing that comes to mind is to detect when a checkbox changes its state and store a new value in &lt;code&gt;UserDefaults&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@IBOutlet weak var displayNotificationCheckbox: NSButton!
-@IBAction func displayNotificationCheckboxStateChanged(_ sender: NSButton) {
-    switch sender.state {
-    case .on:
-        UserDefaults.standard.set(true, forKey: &amp;quot;displayNotifications&amp;quot;)
-    case .off:
-        UserDefaults.standard.set(false, forKey: &amp;quot;displayNotifications&amp;quot;)
-    default:
-        return
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It works, but this code very repetitive. Fortunately, you can avoid it using bindings.
-If you open your storyboard and navigate to &lt;em&gt;Bindings inspector&lt;/em&gt; &lt;code&gt;(CMD+ALT+7)&lt;/code&gt;, you&amp;rsquo;ll see a lot of properties you can bind. What is great about it, you can bind predefined properties as well as your custom ones. In this tutorial, let&amp;rsquo;s focus on a basic example, so you have a good place to start from.&lt;/p&gt;
-
-&lt;p&gt;First, expand &lt;em&gt;Value&lt;/em&gt; section and select &lt;em&gt;Bind to&lt;/em&gt; checkbox. By default, it will choose &lt;em&gt;Shared User Defaults&lt;/em&gt; option for you and that&amp;rsquo;s exactly what we want. In addition, it will add a green circle which indicates that &lt;code&gt;Shared User Defaults Controller&lt;/code&gt; has been added to a specific view controller.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://mateuszkarwat.com/post/native-binding/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;With &lt;em&gt;Bind to&lt;/em&gt; option selected, all you need to do is to specify &lt;em&gt;Model Key Path&lt;/em&gt;. In our case let&amp;rsquo;s write &lt;code&gt;displayNotifications&lt;/code&gt;. This is a name of a property which will store the state of the checkbox in &lt;code&gt;UserDefaults&lt;/code&gt;. Your final setup should look like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://mateuszkarwat.com/post/native-binding/2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;That&amp;rsquo;s it! No code is required and the checkbox&amp;rsquo;s state is stored in &lt;code&gt;UserDefaults&lt;/code&gt; persistently. If you reopen the application, checkbox&amp;rsquo;s state will be just as you set it.&lt;/p&gt;
-
-&lt;p&gt;I highly encourage you to experiment with other options. You can create a quite complex binding rules there.&lt;/p&gt;
-</description>
-        </item>
-      
     
       
         <item>

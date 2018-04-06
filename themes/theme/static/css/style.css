@@ -1,10 +1,10 @@
 /*=========================================
 Reset
 =========================================== */
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0} 
 *, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 .group:before,
-.group:after { content: ""; display: table;}
+.group:after { content: ""; display: table;} 
 .group:after { clear: both;}
 .group { zoom: 1;}
 .hidden { display: none; }
@@ -26,17 +26,17 @@ font-style: normal;
 [class^="icon-"]:before, [class*=" icon-"]:before {
 font-family: "icons";
 font-style: normal; font-weight: normal; speak: none;
-display: inline-block; text-decoration: inherit; text-align: center;
+display: inline-block; text-decoration: inherit; text-align: center; 
 font-variant: normal; text-transform: none; line-height: 1em;
 }
 
-.icon-facebook:before { content: '\e802'; }
-.icon-facebook-squared:before { content: '\e800'; }
-.icon-twitter:before { content: '\e801'; }
-.icon-twitter-1:before { content: '\e804'; }
+.icon-facebook:before { content: '\e802'; } 
+.icon-facebook-squared:before { content: '\e800'; } 
+.icon-twitter:before { content: '\e801'; } 
+.icon-twitter-1:before { content: '\e804'; } 
 .icon-facebook-circled:before { content: '\e805'; }
-.icon-twitter-circled:before { content: '\e806'; }
-.icon-facebook-rect:before { content: '\e803'; }
+.icon-twitter-circled:before { content: '\e806'; } 
+.icon-facebook-rect:before { content: '\e803'; } 
 
 /*=========================================
 General Spacing
@@ -76,12 +76,12 @@ body {
 Typography
 =========================================== */
 /*Accent color*/
-a,
+a, 
 #title,
 #post-list a:hover,
 #post-list li:hover .dates,
 #title:hover {
-	text-decoration:none;
+	text-decoration:none; 
 	color:#5badf0;
 	color:#5694f1;
 }
@@ -92,7 +92,7 @@ p a { color:#5694f1; }
 a,
 #post-nav a,
 #post-list a
-{
+{ 
 	-webkit-transition: all 0.15s ease;
 	-moz-transition: all 0.15s ease;
 	-ms-transition: all 0.15s ease;
@@ -164,8 +164,8 @@ h6 {
 	margin-bottom: 6px;
 }
 
-p.small {
-	color: #bbb; font-size: 14px; line-height: 1.5;
+p.small { 
+	color: #bbb; font-size: 14px; line-height: 1.5; 
 	display: block;
 }
 
@@ -181,12 +181,12 @@ hr {
 
 code, span.code {
   font-family:Menlo, Monaco, Courier;
-   font-size:14px;
+   font-size:14px; 
 }
 
 span.code {  background-color:#EEE; }
 
-pre	{ font-family:Menlo, Monaco, Courier; border: 1px solid #ddd; padding:20px;
+pre	{ font-family:Menlo, Monaco, Courier; border: 1px solid #ddd; padding:20px; 
 background-color:#fdfdfd; font-size:14px;  overflow:scroll; border-radius: 3px;
 }
 
@@ -232,13 +232,9 @@ thead th,th {
 }
 
 img {
-	width: auto;
-	height: auto;
-	max-width: 100%;
+	width:100%;
+	max-width:100%;
 	border-radius: 3px;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
 }
 
 /*=========================================
@@ -309,7 +305,7 @@ Post List
 	font-size: 17px;
 }
 
-#footer {
+#footer { 
 	box-shadow: inset 0 1px 0 #eee;
 	padding: 40px 0 0 0;
 	margin-top: 100px;
