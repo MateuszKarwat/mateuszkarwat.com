@@ -6,8 +6,26 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2018</rights>
-    <updated>2018-04-05 00:00:00 &#43;0000 UTC</updated>
+    <updated>2018-09-29 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>New version of Napi</title>
+          <link>https://mateuszkarwat.com/post/napi-mojave-release/</link>
+          <pubDate>Sat, 29 Sep 2018 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>https://mateuszkarwat.com/post/napi-mojave-release/</guid>
+          <description>&lt;p&gt;I just released a new version of &lt;a href=&#34;https://github.com/MateuszKarwat/Napi/releases/tag/1.1.0&#34;&gt;Napi&lt;/a&gt;. Version &lt;code&gt;1.1.0&lt;/code&gt; introduces a full support for Mojave&amp;rsquo;s Dark Mode.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mateuszkarwat.com/post/napi-mojave-release/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In addition, this version adds a completely new menu to the Status Bar with option to download subtitles using a specific subtitle provider.&lt;/p&gt;
+
+&lt;p&gt;Enjoy!&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
