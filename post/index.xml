@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Mateusz Karwat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://mateuszkarwat.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>New version of Napi</title>
+      <link>https://mateuszkarwat.com/post/napi-mojave-release/</link>
+      <pubDate>Sat, 29 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://mateuszkarwat.com/post/napi-mojave-release/</guid>
+      <description>I just released a new version of Napi. Version 1.1.0 introduces a full support for Mojave&amp;rsquo;s Dark Mode.
+In addition, this version adds a completely new menu to the Status Bar with option to download subtitles using a specific subtitle provider.
+Enjoy!</description>
+    </item>
     
     <item>
       <title>Native binding</title>
