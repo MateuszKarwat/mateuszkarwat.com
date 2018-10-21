@@ -6,7 +6,7 @@
     <description>Recent content in Pages on Mateusz Karwat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 30 Sep 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://mateuszkarwat.com/page/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,11 +14,11 @@
     <item>
       <title>Curriculum Vitae</title>
       <link>https://mateuszkarwat.com/page/curriculum_vitae/</link>
-      <pubDate>Fri, 30 Sep 2016 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://mateuszkarwat.com/page/curriculum_vitae/</guid>
-      <description>Work Experience February 2017 - present Software Engineer (iOS Developer) Tieto / Szczytnicka 11, 50-382 Wrocław I worked as a full stack iOS developer on two projects. In both, application was responsible for connecting to an external device, setting and managing the device.
-Application for a hybrid watch (Kronaby) Responsible for a design and development of an iOS application allowing bidirectional BLE communication. Development in Swift for both back-end and front-end solutions.</description>
+      <description>Work Experience February 2017 - present Software Engineer (iOS Developer) Tieto / Szczytnicka 11, 50-382 Wrocław I worked as a full stack iOS developer on three projects so far. In two of them application was responsible for connecting to an external device, setting and managing the device. The third application is highly related to maps and navigation handling.
+Map based application As an only developer responsible for the iOS application, I&#39;m creating an SDK in Objective-C and an application in Swift.</description>
     </item>
     
     <item>
