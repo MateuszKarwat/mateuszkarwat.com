@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://mateuszkarwat.com/page/curriculum_vitae/</loc>
+    <lastmod>2018-10-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mateuszkarwat.com/post/napi-mojave-release/</loc>
     <lastmod>2018-09-29T00:00:00+00:00</lastmod>
   </url>
@@ -38,11 +43,6 @@
   </url>
   
   <url>
-    <loc>https://mateuszkarwat.com/page/curriculum_vitae/</loc>
-    <lastmod>2016-09-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mateuszkarwat.com/page/about/</loc>
   </url>
   
@@ -57,13 +57,13 @@
   
   <url>
     <loc>https://mateuszkarwat.com/</loc>
-    <lastmod>2018-09-29T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://mateuszkarwat.com/page/</loc>
-    <lastmod>2016-09-30T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

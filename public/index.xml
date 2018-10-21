@@ -6,8 +6,10 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2018</rights>
-    <updated>2018-09-29 00:00:00 &#43;0000 UTC</updated>
+    <updated>2018-10-21 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
     
       
         <item>
@@ -414,8 +416,6 @@ class FileInformationProvider {
 &lt;p&gt;&lt;sup id=&#34;fn1&#34;&gt;1. &lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID361&#34;&gt;The Swift Programming Language - Type Alias Declaration&lt;/a&gt;&lt;a href=&#34;#ref1&#34; title=&#34;Jump back to footnote 1 in the text.&#34;&gt;↩&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 </description>
         </item>
-      
-    
       
     
       
